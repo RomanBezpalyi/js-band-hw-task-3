@@ -13,11 +13,12 @@ class LocalStorage {
   }
 
   getItems(list) {
-    try {
-      if (localStorage[`${this.prefix}${list}`])
+    if (localStorage[`${this.prefix}${list}`]) {
+      try {
         return JSON.parse(localStorage.getItem(`${this.prefix}${list}`));
-    } catch (e) {
-      console.error("Error while parsing.");
+      } catch (e) {
+        console.error("Error while parsing.");
+      }
     }
   }
 

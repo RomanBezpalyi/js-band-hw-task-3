@@ -11,7 +11,8 @@ export default class VehicleFactory {
       case collectionTypes.SHIPS:
         return new Ship(object);
       default:
-        return new Vehicle(object);
+        const { model, producedYear, capacity, averageSpeed } = object;
+        return new Vehicle(model, producedYear, capacity, averageSpeed);
     }
   }
 }

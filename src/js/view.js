@@ -1,5 +1,6 @@
 import EVENT_EMITTER from "./services/event-emitter";
 import VehicleFactory from "./classes/vehicle-factory";
+import Cost from "./classes/cost";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class View {
@@ -22,9 +23,8 @@ export default class View {
 
     const target = e.target;
     const item = {};
-    let inst;
 
-    if (target.name !== "costs") {
+    if (target.name !== collectionTypes.COSTS) {
       const model = target.querySelector(".model");
       const producedYear = target.querySelector(".year");
       const capacity = target.querySelector(".capacity");
@@ -43,8 +43,6 @@ export default class View {
 
         item.licensePlate = license.value;
         item.typeOfGas = typeOfGas.value;
-
-        inst = new VehicleFactory.create(target.name, item);
         break;
       case collectionTypes.SHIPS:
         const name = target.querySelector(".name");
@@ -52,8 +50,6 @@ export default class View {
 
         item.name = name.value;
         item.countOfTeam = countOfTeam.value;
-
-        inst = new VehicleFactory.create(target.name, item);
         break;
       case collectionTypes.COSTS:
         const radios = target.querySelectorAll(".type");
@@ -64,12 +60,14 @@ export default class View {
         item.model = model.value;
         item.costByCargo = costByCargo.value;
         item.costByDistance = costByDistance.value;
-
-        inst = new Cost(item);
         break;
       default:
         return;
     }
+    const inst =
+      target.name === collectionTypes.COSTS
+        ? new Cost(item)
+        : VehicleFactory.create(target.name, item);
 
     EVENT_EMITTER.emit("add-via-view", inst);
     target.reset();
@@ -82,173 +80,81 @@ export default class View {
     return element;
   }
 
-  createItem(type, item) {
+  createWrapperWithChildren(title, text) {
+    const childTitle = this.createDOMElement("h3", title, "item__title");
+    const childText = this.createDOMElement("p", text, "item__text");
+    const wrapper = this.createDOMElement("div", null, "item__wrapper");
+
+    wrapper.append(childTitle, childText);
+    return wrapper;
+  }
+
+  createCost(item) {
+    const cargoWrapper = this.createWrapperWithChildren(
+      "Cost by 1 kg of cargo:",
+      `${item.costByCargo}$`
+    );
+    const distanceWrapper = this.createWrapperWithChildren(
+      "Cost by 1 km of distance:",
+      `${item.costByDistance}$`
+    );
+
+    return [cargoWrapper, distanceWrapper];
+  }
+
+  createVehicle(type, item) {
+    const licenseNameWrapper = this.createWrapperWithChildren(
+      type === collectionTypes.TRUCKS ? "License Plate:" : "Name:",
+      type === collectionTypes.TRUCKS ? item.licensePlate : item.name
+    );
+
+    const yearWrapper = this.createWrapperWithChildren(
+      "Produced year:",
+      item.producedYear
+    );
+
+    const capacityWrapper = this.createWrapperWithChildren(
+      "Capacity:",
+      `${item.capacity}kg`
+    );
+
+    const speedWrapper = this.createWrapperWithChildren(
+      "Average speed:",
+      `${item.averageSpeed}${type === collectionTypes.TRUCKS ? "km" : "nm"}`
+    );
+
+    const gasTeamWrapper = this.createWrapperWithChildren(
+      type === collectionTypes.TRUCKS ? "Type of gas:" : "Count of team:",
+      type === collectionTypes.TRUCKS ? item.typeOfGas : item.countOfTeam
+    );
+
+    return [
+      licenseNameWrapper,
+      yearWrapper,
+      capacityWrapper,
+      speedWrapper,
+      gasTeamWrapper
+    ];
+  }
+
+  createListItem(type, item) {
     const li = this.createDOMElement("li", null, "vehicle-list__li");
     const itemToAdd = this.createDOMElement("div", null, "item");
 
-    const modelTitle = this.createDOMElement("h3", "Model:", "item__title");
-    const model = this.createDOMElement("p", item.model, "item__text");
-    const modelWrapper = this.createDOMElement("div", null, "item__wrapper");
-    modelWrapper.append(modelTitle, model);
-    itemToAdd.append(modelWrapper);
+    const modelWrapper = this.createWrapperWithChildren("Model:", item.model);
+    const innerWrappers =
+      type === collectionTypes.COSTS
+        ? this.createCost(item)
+        : this.createVehicle(type, item);
 
-    if (type === collectionTypes.COSTS) {
-      const costByCargoTitle = this.createDOMElement(
-        "h3",
-        "Cost by 1 kg of cargo:",
-        "item__title"
-      );
-      const costByCargo = this.createDOMElement(
-        "p",
-        `${item.costByCargo}$`,
-        "item__text"
-      );
-
-      const costByDistanceTitle = this.createDOMElement(
-        "h3",
-        "Cost by 1 km of distance:",
-        "item__title"
-      );
-      const costByDistance = this.createDOMElement(
-        "p",
-        `${item.costByDistance}$`,
-        "item__text"
-      );
-
-      const cargoWrapper = modelWrapper.cloneNode(false);
-      const distanceWrapper = modelWrapper.cloneNode(false);
-
-      modelWrapper.append(modelTitle, model);
-      cargoWrapper.append(costByCargoTitle, costByCargo);
-      distanceWrapper.append(costByDistanceTitle, costByDistance);
-
-      itemToAdd.append(modelWrapper, cargoWrapper, distanceWrapper);
-    } else {
-      const yearTitle = this.createDOMElement(
-        "h3",
-        "Produced year:",
-        "item__title"
-      );
-      const year = this.createDOMElement("p", item.producedYear, "item__text");
-      const yearWrapper = this.createDOMElement("div", null, "item__wrapper");
-      yearWrapper.append(yearTitle, year);
-
-      const capacityTitle = this.createDOMElement(
-        "h3",
-        "Capacity:",
-        "item__title"
-      );
-      const capacity = this.createDOMElement(
-        "p",
-        `${item.capacity}kg`,
-        "item__text"
-      );
-      const capacityWrapper = this.createDOMElement(
-        "div",
-        null,
-        "item__wrapper"
-      );
-      capacityWrapper.append(capacityTitle, capacity);
-
-      const speedTitle = this.createDOMElement(
-        "h3",
-        "Average speed:",
-        "item__title"
-      );
-      const speed = this.createDOMElement(
-        "p",
-        `${item.averageSpeed}${type === "trucks" ? "km" : "nm"}`,
-        "item__text"
-      );
-      const speedWrapper = this.createDOMElement("div", null, "item__wrapper");
-      speedWrapper.append(speedTitle, speed);
-
-      switch (type) {
-        case collectionTypes.TRUCKS:
-          const licenseTitle = this.createDOMElement(
-            "h3",
-            "License Plate:",
-            "item__title"
-          );
-          const license = this.createDOMElement(
-            "p",
-            item.licensePlate,
-            "item__text"
-          );
-          const licenseWrapper = this.createDOMElement(
-            "div",
-            null,
-            "item__wrapper"
-          );
-          licenseWrapper.append(licenseTitle, license);
-
-          const gasTitle = this.createDOMElement(
-            "h3",
-            "Type of gas:",
-            "item__title"
-          );
-          const gas = this.createDOMElement("p", item.typeOfGas, "item__text");
-          const gasWrapper = this.createDOMElement(
-            "div",
-            null,
-            "item__wrapper"
-          );
-          gasWrapper.append(gasTitle, gas);
-          itemToAdd.append(
-            licenseWrapper,
-            yearWrapper,
-            capacityWrapper,
-            speedWrapper,
-            gasWrapper
-          );
-          break;
-
-        case collectionTypes.SHIPS:
-          const nameTitle = this.createDOMElement("h3", "Name:", "item__title");
-          const name = this.createDOMElement("p", item.name, "item__text");
-          const nameWrapper = this.createDOMElement(
-            "div",
-            null,
-            "item__wrapper"
-          );
-          nameWrapper.append(nameTitle, name);
-
-          const teamTitle = this.createDOMElement(
-            "h3",
-            "Count of team:",
-            "item__title"
-          );
-          const team = this.createDOMElement(
-            "p",
-            item.countOfTeam,
-            "item__text"
-          );
-          const teamWrapper = this.createDOMElement(
-            "div",
-            null,
-            "item__wrapper"
-          );
-          teamWrapper.append(teamTitle, team);
-          itemToAdd.append(
-            nameWrapper,
-            yearWrapper,
-            capacityWrapper,
-            speedWrapper,
-            teamWrapper
-          );
-          break;
-        default:
-          return;
-      }
-    }
-
-    li.append(itemToAdd);
+    itemToAdd.append(modelWrapper, ...innerWrappers);
+    li.appendChild(itemToAdd);
 
     return li;
   }
 
-  handleCancel(e) {
-    e.target.reset();
+  handleCancel({ target }) {
+    target.reset();
   }
 
   init(vehicles, costs) {
@@ -259,10 +165,10 @@ export default class View {
       const type = vehicle.hasOwnProperty("licensePlate")
         ? collectionTypes.TRUCKS
         : collectionTypes.SHIPS;
-      return this.createItem(type, vehicle);
+      return this.createListItem(type, vehicle);
     });
     const costsToAdd = costs.map(cost =>
-      this.createItem(collectionTypes.COSTS, cost)
+      this.createListItem(collectionTypes.COSTS, cost)
     );
 
     this.vehicleList.append(...vehiclesToAdd);
