@@ -1,0 +1,20 @@
+.cancel-btn {
+    width: 100px;
+    height: 30px;
+    background-color: #ffffff;
+    font-size: 12px;
+    border: 0;
+    letter-spacing: 0px;
+    line-height: 21px;
+    color: #000000;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+}
+
+.cancel-btn:hover,
+.cancel-btn:focus {
+    background-color: #c0c0c0;
+}

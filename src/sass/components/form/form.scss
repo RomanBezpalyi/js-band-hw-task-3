@@ -1,0 +1,95 @@
+.form-list {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    color: #0084ff;
+}
+
+.form-list__item {
+    width: 30%;
+}
+
+.form-list__title {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.truck-form__model,
+.truck-form__license,
+.truck-form__year,
+.truck-form__capacity,
+.truck-form__speed,
+.truck-form__type-of-gas,
+.ship-form__model,
+.ship-form__name,
+.ship-form__year,
+.ship-form__capacity,
+.ship-form__speed,
+.ship-form__count-of-team,
+.cost-form__type,
+.cost-form__cargo,
+.cost-form__distance,
+.truck-form__title,
+.ship-form__title,
+.cost-form__title {
+    width: 45%;
+    margin-bottom: 2px;
+}
+
+.truck-form__model::placeholder,
+.truck-form__license::placeholder,
+.truck-form__year::placeholder,
+.truck-form__capacity::placeholder,
+.truck-form__speed::placeholder,
+.truck-form__type-of-gas::placeholder,
+.ship-form__model::placeholder,
+.ship-form__name::placeholder,
+.ship-form__year::placeholder,
+.ship-form__capacity::placeholder,
+.ship-form__speed::placeholder,
+.ship-form__count-of-team::placeholder,
+.cost-form__type::placeholder,
+.cost-form__cargo::placeholder,
+.cost-form__distance::placeholder {
+    font-size: 10px;
+}
+
+.cost-form__wrapper {
+    width: 100%;
+    display: flex;
+    margin-bottom: 14px;
+    justify-content: space-around;
+}
+
+.button-wrapper {
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.cost-button-wrapper {
+    padding-top: 50px;
+}
+
+@media screen and (max-width: 767px) {
+    .form-list {
+        display: block;
+    }
+
+    .form-list>li {
+        width: 100%;
+    }
+
+}

@@ -1,0 +1,49 @@
+.main-content {
+    box-sizing: border-box;
+    margin: 0;
+    padding-top: 40px;
+    background-color: #f5f7fa;
+}
+
+.item-list-list {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.item-list-list__item {
+    width: 48%;
+}
+
+.item-list-list__title {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
+
+.vehicle-list,
+.cost-list {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.vehicle-list>li,
+.cost-list>li {
+    width: 48%;
+}
+
+@media screen and (max-width: 767px) {
+        .item-list-list {
+            display: block;
+        }
+
+        .item-list-list>li {
+            width: 100%;
+        }
+}

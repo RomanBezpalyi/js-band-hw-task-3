@@ -1,0 +1,21 @@
+.header {
+    width: 100%;
+    height: 274px;
+    background: #090544;
+}
+
+
+@media screen and (max-width: 767px) {
+    .header {
+        padding-top: 20px;
+        height: 750px;
+    }
+
+}
+
+@media screen and (max-width: 1140px) {
+    .header {
+        height: 280px;
+    }
+
+}
