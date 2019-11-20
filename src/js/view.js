@@ -1,7 +1,5 @@
 import EVENT_EMITTER from "./services/event-emitter";
-import Truck from "./classes/truck";
-import Ship from "./classes/ship";
-import Cost from "./classes/cost";
+import VehicleFactory from "./classes/vehicle-factory";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class View {
@@ -46,7 +44,7 @@ export default class View {
         item.licensePlate = license.value;
         item.typeOfGas = typeOfGas.value;
 
-        inst = new Truck(item);
+        inst = new VehicleFactory.create(target.name, item);
         break;
       case collectionTypes.SHIPS:
         const name = target.querySelector(".name");
@@ -55,7 +53,7 @@ export default class View {
         item.name = name.value;
         item.countOfTeam = countOfTeam.value;
 
-        inst = new Ship(item);
+        inst = new VehicleFactory.create(target.name, item);
         break;
       case collectionTypes.COSTS:
         const radios = target.querySelectorAll(".type");
