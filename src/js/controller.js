@@ -1,4 +1,5 @@
 import EVENT_EMITTER from "./services/event-emitter";
+import LOCAL_STORAGE from "./services/local-storage";
 import Cost from "./classes/cost";
 import collectionTypes from "./constants/collectionTypes";
 
@@ -7,6 +8,7 @@ export default class Controller {
     this.model = model;
     this.view = view;
 
+    LOCAL_STORAGE.setPrefix();
     this.model.getItemsFromLS();
     this.view.init(this.model.vehicles, this.model.costs);
 
@@ -18,10 +20,6 @@ export default class Controller {
       item instanceof Cost ? collectionTypes.COSTS : collectionTypes.VEHICLES;
 
     this.model.addItem(item, listType);
-    try {
-      localStorage.setItem(`${listType}`, JSON.stringify(this.model[listType]));
-    } catch (e) {
-      console.error("Error while parsing.");
-    }
+    LOCAL_STORAGE.setItems(listType, this.model[listType]);
   }
 }

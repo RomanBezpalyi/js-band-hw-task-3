@@ -1,4 +1,5 @@
 import EVENT_EMITTER from "./services/event-emitter";
+import LOCAL_STORAGE from "./services/local-storage";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class Model {
@@ -8,16 +9,8 @@ export default class Model {
   }
 
   getItemsFromLS() {
-    try {
-      if (localStorage.vehicles)
-        this.vehicles = JSON.parse(
-          localStorage.getItem(collectionTypes.VEHICLES)
-        );
-      if (localStorage.costs)
-        this.costs = JSON.parse(localStorage.getItem(collectionTypes.COSTS));
-    } catch (e) {
-      console.error("Error while parsing.");
-    }
+    this.vehicles = LOCAL_STORAGE.getItems(collectionTypes.VEHICLES) || [];
+    this.costs = LOCAL_STORAGE.getItems(collectionTypes.COSTS) || [];
   }
 
   addItem(item, list) {
