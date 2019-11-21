@@ -1,5 +1,5 @@
-import EVENT_EMITTER from "./services/event-emitter";
-import VehicleFactory from "./classes/vehicle-factory";
+import EVENT_EMITTER from "./services/eventEmitter";
+import VehicleFactory from "./classes/vehicleFactory";
 import Cost from "./classes/cost";
 import collectionTypes from "./constants/collectionTypes";
 

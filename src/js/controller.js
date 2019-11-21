@@ -1,5 +1,5 @@
-import EVENT_EMITTER from "./services/event-emitter";
-import LOCAL_STORAGE from "./services/local-storage";
+import EVENT_EMITTER from "./services/eventEmitter";
+import LOCAL_STORAGE from "./services/localStorage";
 import Cost from "./classes/cost";
 import collectionTypes from "./constants/collectionTypes";
 
