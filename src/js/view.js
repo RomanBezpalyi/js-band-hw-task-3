@@ -21,7 +21,7 @@ export default class View {
   handleAdd(e) {
     e.preventDefault();
 
-    const target = e.target;
+    const { target } = e;
     const item = {};
 
     if (target.name !== collectionTypes.COSTS) {
