@@ -1,7 +1,7 @@
 import collectionTypes from "../constants/collectionTypes";
-import Vehicle from "./vehicle";
-import Truck from "./truck";
-import Ship from "./ship";
+import Vehicle from "./Vehicle";
+import Truck from "./Truck";
+import Ship from "./Ship";
 
 export default class VehicleFactory {
   static create(type, object) {
@@ -10,9 +10,10 @@ export default class VehicleFactory {
         return new Truck(object);
       case collectionTypes.SHIPS:
         return new Ship(object);
-      default:
+      default: {
         const { model, producedYear, capacity, averageSpeed } = object;
         return new Vehicle(model, producedYear, capacity, averageSpeed);
+      }
     }
   }
 }

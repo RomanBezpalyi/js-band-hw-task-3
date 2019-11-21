@@ -1,6 +1,6 @@
-import EVENT_EMITTER from "./services/eventEmitter";
-import VehicleFactory from "./classes/vehicleFactory";
-import Cost from "./classes/cost";
+import EVENT_EMITTER from "./services/EventEmitter";
+import VehicleFactory from "./classes/VehicleFactory";
+import Cost from "./classes/Cost";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class View {
@@ -37,23 +37,27 @@ export default class View {
     }
 
     switch (target.name) {
-      case collectionTypes.TRUCKS:
+      case collectionTypes.TRUCKS: {
         const license = target.querySelector(".license");
         const typeOfGas = target.querySelector(".gas");
 
         item.licensePlate = license.value;
         item.typeOfGas = typeOfGas.value;
         break;
-      case collectionTypes.SHIPS:
+      }
+
+      case collectionTypes.SHIPS: {
         const name = target.querySelector(".name");
         const countOfTeam = target.querySelector(".team");
 
         item.name = name.value;
         item.countOfTeam = countOfTeam.value;
         break;
-      case collectionTypes.COSTS:
+      }
+
+      case collectionTypes.COSTS: {
         const radios = target.querySelectorAll(".type");
-        const model = Array.from(radios).find(radio => radio.checked);
+        const model = [...radios].find(radio => radio.checked);
         const costByCargo = target.querySelector(".cargo");
         const costByDistance = target.querySelector(".distance");
 
@@ -61,6 +65,8 @@ export default class View {
         item.costByCargo = costByCargo.value;
         item.costByDistance = costByDistance.value;
         break;
+      }
+
       default:
         return;
     }
@@ -162,7 +168,7 @@ export default class View {
     this.costList.innerHTML = "";
 
     const vehiclesToAdd = vehicles.map(vehicle => {
-      const type = vehicle.hasOwnProperty("licensePlate")
+      const type = Object.prototype.hasOwnProperty.call(vehicle, "licensePlate")
         ? collectionTypes.TRUCKS
         : collectionTypes.SHIPS;
       return this.createListItem(type, vehicle);

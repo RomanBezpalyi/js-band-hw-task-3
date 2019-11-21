@@ -3,6 +3,7 @@ class LocalStorage {
     if (typeof LocalStorage.instance === "object") {
       return LocalStorage.instance;
     }
+
     this.prefix = "";
     LocalStorage.instance = this;
     return this;

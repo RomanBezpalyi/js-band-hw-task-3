@@ -3,6 +3,7 @@ class EventEmitter {
     if (typeof EventEmitter.instance === "object") {
       return EventEmitter.instance;
     }
+
     this.events = {};
     EventEmitter.instance = this;
     return this;

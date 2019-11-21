@@ -1,5 +1,5 @@
-import EVENT_EMITTER from "./services/eventEmitter";
-import LOCAL_STORAGE from "./services/localStorage";
+import EVENT_EMITTER from "./services/EventEmitter";
+import LOCAL_STORAGE from "./services/LocalStorage";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class Model {

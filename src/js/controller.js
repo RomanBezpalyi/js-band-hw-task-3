@@ -1,6 +1,6 @@
-import EVENT_EMITTER from "./services/eventEmitter";
-import LOCAL_STORAGE from "./services/localStorage";
-import Cost from "./classes/cost";
+import EVENT_EMITTER from "./services/EventEmitter";
+import LOCAL_STORAGE from "./services/LocalStorage";
+import Cost from "./classes/Cost";
 import collectionTypes from "./constants/collectionTypes";
 
 export default class Controller {

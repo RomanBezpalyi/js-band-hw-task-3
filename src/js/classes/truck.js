@@ -1,4 +1,4 @@
-import Vehicle from "./vehicle";
+import Vehicle from "./Vehicle";
 
 export default class Truck extends Vehicle {
   constructor({
